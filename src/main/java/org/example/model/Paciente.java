@@ -20,4 +20,25 @@ public class Paciente {
     @Column(unique = true)
     private String email;
     private String senha;
+
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Avaliacao avaliacao;
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Historico historico;
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Dieta> dietas;
+
+    public Paciente(String nome, String cpf, String email, String senha) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+    }
+
+    public double getImc() {
+        if (avaliacao != null) {
+            return avaliacao.getImc();
+        }
+        return 0;
+    }
 }
