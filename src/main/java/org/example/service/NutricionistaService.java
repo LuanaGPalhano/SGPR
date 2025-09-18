@@ -13,7 +13,7 @@ public class NutricionistaService {
     private final NutricionistaRepository repository;
     private final PasswordEncoder passwordEncoder; // 1. Injeta o codificador de senhas
 
-    // 2. Garanta que o construtor recebe o PasswordEncoder
+    // 2. Cconstrutor recebe o PasswordEncoder
     public NutricionistaService(NutricionistaRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
@@ -26,7 +26,7 @@ public class NutricionistaService {
         }
 
 
-        // 3. ESTA É A LINHA CRÍTICA: CRIPTOGRAFA a senha ANTES de salvar
+        // 3. CRIPTOGRAFA a senha antes de salvar
         String senhaCriptografada = passwordEncoder.encode(nutricionista.getSenha());
         nutricionista.setSenha(senhaCriptografada);
 
