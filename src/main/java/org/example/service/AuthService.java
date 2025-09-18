@@ -27,14 +27,13 @@ public class AuthService {
     }
 
     public Optional<LoginResponse> autenticar(LoginRequest request) {
-        // ... (lógica do nutricionista que já deve estar correta)
 
         Optional<Nutricionista> nutricionistaOpt = this.nutricionistaRepository.findByCrnUf(request.login());
         if (nutricionistaOpt.isPresent() && passwordEncoder.matches(request.senha(), nutricionistaOpt.get().getSenha())) {
             return Optional.of(new LoginResponse(nutricionistaOpt.get().getCrnUf(), "NUTRICIONISTA"));
         }
 
-        // 3. Uso CORRETO do método no objeto 'pacienteRepository'
+        // 3. Uso do método no objeto 'pacienteRepository'
         Optional<Paciente> pacienteOpt = this.pacienteRepository.findByCpf(request.login());
         if (pacienteOpt.isPresent() && passwordEncoder.matches(request.senha(), pacienteOpt.get().getSenha())) {
             return Optional.of(new LoginResponse(pacienteOpt.get().getCpf(), "PACIENTE"));
