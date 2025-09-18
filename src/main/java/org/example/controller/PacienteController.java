@@ -16,7 +16,7 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
-    @PostMapping("/paciente") // Endpoint mais específico
+    @PostMapping("/paciente") 
     public ResponseEntity<PacienteResponse> cadastrar(@RequestBody PacienteCadastroRequest dados) {
         PacienteResponse pacienteSalvo = pacienteService.cadastrar(dados);
         return ResponseEntity.status(HttpStatus.CREATED).body(pacienteSalvo);
