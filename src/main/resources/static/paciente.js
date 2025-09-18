@@ -14,7 +14,6 @@ document.getElementById("formPaciente").addEventListener("submit", function(even
 
     const paciente = { nome, cpf, email, senha };
 
-    // URL relativa → funciona mesmo host e porta do HTML
     fetch("http://localhost:8080/api/cadastrar/paciente", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
