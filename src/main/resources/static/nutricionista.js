@@ -14,7 +14,7 @@ document.getElementById("formNutricionista").addEventListener("submit", function
 
     const nutricionista = { nome, crnUf, email, senha };
 
-    // URL relativa → funciona mesmo host e porta do HTML
+
     fetch("http://localhost:8080/api/nutricionistas/cadastro", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
