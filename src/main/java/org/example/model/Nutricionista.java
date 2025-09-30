@@ -20,4 +20,12 @@ public class Nutricionista {
     @Column(unique = true)
     private String email;
     private String senha;
+
+    public Nutricionista(String nome, String crnUf, String email, String senha) {
+        this.nome = nome;
+        this.crnUf = crnUf;
+        this.email = email;
+        this.senha = senha;
+    }
+
 }

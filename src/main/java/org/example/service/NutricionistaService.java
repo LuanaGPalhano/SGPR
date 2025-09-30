@@ -5,8 +5,6 @@ import org.example.repository.NutricionistaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class NutricionistaService {
 
