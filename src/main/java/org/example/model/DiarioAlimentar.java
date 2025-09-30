@@ -2,26 +2,25 @@ package org.example.model;
 
 import lombok.*;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
 
-@Data
+import java.util.List;
 @Entity
+@Table(name = "diario_alimentar")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "diario")
+@Builder
 
 public class DiarioAlimentar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne  
-    @JoinColumn(name="paciente_id")
-    private Paciente paciente;
-    private String texto;
-    private String imgURL;
-    @OneToMany(mappedBy = "anotacao", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Refeicoes> refeicoes;
-    private LocalDateTime registroHorario = LocalDateTime.now();
-}
 
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String imgURL;
+
+    @OneToMany(mappedBy = "diario" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Refeicoes> refeicoes = new java.util.ArrayList<>();
+}

@@ -12,7 +12,6 @@ import org.example.model.Refeicoes;
 @NoArgsConstructor
 public class DiarioAlimentarResponse {
     private Long id;
-    private Long pacienteId;
     private String texto;
     private String imgURL;
     private List<Refeicoes> refeicoes;

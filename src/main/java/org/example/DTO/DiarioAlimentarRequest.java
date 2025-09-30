@@ -9,7 +9,6 @@ import org.example.model.Refeicoes;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DiarioAlimentarRequest {
-    private Long pacienteId;
     private String texto;
     private String imgURL;
     private List<Refeicoes> refeicoes;

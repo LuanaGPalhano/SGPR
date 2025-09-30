@@ -11,7 +11,7 @@ const addNota = document.getElementById('novaAnotacao');
 
 function abrirDiario(){
     window.open(
-        'campotexto.html', 'Meu Diário', 'width=450, heigth=450, resizable=yes, scrollbars=yes'
+        'campotexto.html', 'Meu Diário', 'width=450, height=450, resizable=yes, scrollbars=yes'
     );
 }
 

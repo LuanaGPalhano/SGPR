@@ -23,8 +23,9 @@ function adicionarRefeicao() {
     adicionarRefeicao();
 });
 
-refInput.addEventListener("keypress", function(event){
+refInput.addEventListener("keydown", function(event){
     if(event.key == "Enter"){
+        event.preventDefault();
         adicionarRefeicao();
     }
 });
@@ -69,11 +70,12 @@ botaoSave.addEventListener("click", function(){
     }
 
     const payload = {
-        pacienteId: 1,
-        texto: areaTexto.value.trim(),
+        texto: texto,
         refeicoes: Refeicoes.map(r => ({conjuntoRefeicoes: r})),
         imgURL: imgURL
     };
+
+    
 
     fetch('http://localhost:8080/diario', {
             method: 'POST',
@@ -90,6 +92,6 @@ botaoSave.addEventListener("click", function(){
                 alert("Erro ao salvar a anotação!");
             }
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error(err)); 
     });
 });
