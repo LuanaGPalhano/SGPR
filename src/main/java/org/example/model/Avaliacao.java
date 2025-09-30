@@ -36,9 +36,4 @@ public class Avaliacao {
         this.observacoes = observacoes;
     }
 
-    public double getImc() {
-        this.imc = peso / (altura * altura);
-        return imc;
-    }
-
 }

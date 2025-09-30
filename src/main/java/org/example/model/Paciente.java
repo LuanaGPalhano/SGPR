@@ -35,10 +35,4 @@ public class Paciente {
         this.senha = senha;
     }
 
-    public double getImc() {
-        if (avaliacao != null) {
-            return avaliacao.getImc();
-        }
-        return 0;
-    }
 }
