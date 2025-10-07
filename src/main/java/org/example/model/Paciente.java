@@ -20,9 +20,13 @@ public class Paciente {
     @Column(unique = true)
     private String email;
     private String senha;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nutricionista_id") // Cria a coluna de chave estrangeira
+    private Nutricionista nutricionista;
 
-    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Avaliacao avaliacao;
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Avaliacao> avaliacoes;
     @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Historico historico;
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
