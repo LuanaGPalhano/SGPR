@@ -4,20 +4,21 @@ import lombok.*;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "planejamento_porcao")
 @Data
-@Table(name = "refeicoes")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 
-public class Refeicoes {
+public class Porcao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String conjuntoRefeicoes;
+    private String alimento;
+    private String quantidade;
 
     @ManyToOne
-    @JoinColumn(name = "diario_id")
-    private DiarioAlimentar diario;
+    @JoinColumn(name = "entrada_id")
+    private EntradaPlanejamento entrada;
 }
-

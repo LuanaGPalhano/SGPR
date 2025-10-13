@@ -29,7 +29,9 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/cadastrar/**",
                                 "/api/nutricionistas/**",
-                                "/diario/**"
+                                "/diario/**",
+                                "/planejamento",
+                                "/planejamento/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()

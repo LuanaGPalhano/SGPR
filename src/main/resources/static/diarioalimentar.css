@@ -5,6 +5,13 @@ body {
     padding-top: 30px;
 }
 
+#btnSair {
+    position: fixed;
+    top: 20px;
+    cursor: pointer;
+    width: 70px;
+}
+
 /*CABEÇALHO PAGINA PRINCIPAL*/
 header {
     margin-top: 20px;
@@ -34,6 +41,22 @@ header h1 {
     width:700px;
     height:250px;
     margin-top: 20px;
+    overflow: auto;
+}
+
+.blocoDiario {
+    background-color: #E9FFF1;
+    opacity: 60%;
+    width: 95%;
+    height: 75px;
+    color: solid #36B24E;
+    margin: auto;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
 
 /*LAYOUT*/

@@ -5,7 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.example.model.Refeicoes;
+import org.example.model.EntradaDiario;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +14,7 @@ public class DiarioAlimentarResponse {
     private Long id;
     private String texto;
     private String imgURL;
-    private List<Refeicoes> refeicoes;
+    private List<EntradaDiario> entradas;
     private LocalDateTime registroHorario;
 }
 
