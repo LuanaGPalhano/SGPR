@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
 const btnVoltar = document.getElementById("btnSair");
 
 btnVoltar.addEventListener("click", function(){
-    window.history.back();
+    globalThis.history.back();
 })
     
     const selecaoSemana = document.querySelector("#semanaEscolha");
@@ -52,14 +52,22 @@ btnVoltar.addEventListener("click", function(){
 
             btnSalvar.addEventListener("click", function() {
                 let refeicaoText = novaRefeicao.value.trim();
-                if(!refeicaoText)  return
+                if(!refeicaoText)  return;
+
+                const linhas = refeicaoText.split("\n").slice(1);
+
+                const porcoes = linhas.map(linha => {
+                    const[alimento, quantidade] = linha.split(" - ");
+                    return{alimento : alimento?.trim(), quantidade: quantidade?.trim()};
+                });
+
                     const planejamento = {
                         descricao: `Plano alimentar da semana ${selecaoSemana.value}`,
                         entradas: [
                             {
                                 dia: btnAdicao.closest(".containerDia").querySelector("h4").textContent,
-                                refeicao: refeicaoText,
-                                porcoes: []
+                                refeicao: refeicaoText.split("\n")[0],
+                                porcoes: porcoes
                             }
                         ]
                     };

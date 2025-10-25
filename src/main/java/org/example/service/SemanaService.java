@@ -23,7 +23,7 @@ public class SemanaService {
         }
 
         //ordena da semana mais atual para a mais antiga
-        semanas.sort(Comparator.comparing(SemanaResponse::getValue).reversed());
+        semanas.sort(Comparator.comparing(SemanaResponse::value).reversed());
         return semanas;
     }
 }

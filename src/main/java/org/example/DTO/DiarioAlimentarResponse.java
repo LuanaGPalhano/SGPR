@@ -1,20 +1,19 @@
 package org.example.DTO;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.example.model.EntradaDiario;
+import org.example.model.DiarioAlimentar;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class DiarioAlimentarResponse {
-    private Long id;
-    private String texto;
-    private String imgURL;
-    private List<EntradaDiario> entradas;
-    private LocalDateTime registroHorario;
+public record DiarioAlimentarResponse (
+    Long id,
+    String texto,
+    String imgURL,
+    List<EntradaDiario> entradas,
+    LocalDateTime registroHorario
+) {
+    public DiarioAlimentarResponse(DiarioAlimentar diario){
+        this(diario.getId(), diario.getTexto(), diario.getImgURL(), diario.getEntradasDiario(), diario.getRegistroHorario());
+    }
 }
 

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 const btnVoltar = document.getElementById("btnSair");
 
 btnVoltar.addEventListener("click", function(){
-    window.history.back();
+    globalThis.history.back();
 })
 
 //MOSTRA A DATA NA TELA PRINCIPAL
