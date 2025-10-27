@@ -16,10 +16,11 @@ document.getElementById("data").textContent = dataHoje.toLocaleDateString("pt-BR
 const addNota = document.getElementById('novaAnotacao');
 
 function abrirDiario(){
-    window.open(
-        'campotexto.html', 'Meu Diário', 'width=800, height=750, resizable=yes, scrollbars=yes'
-    );
-}
+
+    const windowFeature = 'width=950, height=750, resizable=yes, scrollbars=yes';
+
+    window.open('campotexto.html', 'MeuDiario', windowFeature);
+} 
 
 addNota.addEventListener('click', abrirDiario);
 });
