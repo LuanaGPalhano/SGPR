@@ -23,7 +23,7 @@ public class EntradaPlanejamento {
     @JoinColumn(name = "planejamento_id")
     private Planejamento planejamento;
 
-    @OneToMany(mappedBy = "entrada" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "entrada", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<Porcao> porcoes = new ArrayList<>();
+    private List<ItemRefeicao> itensRefeicao = new ArrayList<>();
 }

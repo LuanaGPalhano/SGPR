@@ -22,6 +22,9 @@ public class Refeicao {
     @JoinColumn(name = "dieta_id")
     private Dieta dieta;
 
+    @OneToMany(mappedBy = "refeicao", cascade = CascadeType.ALL)
+    private java.util.List<ItemRefeicao> itens;
+
     public Refeicao(String nome, LocalTime horario, String descricao, Dieta dieta) {
         this.nome = nome;
         this.horario = horario;

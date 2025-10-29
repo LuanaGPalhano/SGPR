@@ -21,6 +21,12 @@ public class Nutricionista {
     private String email;
     private String senha;
 
+    @OneToMany(mappedBy = "nutricionista", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Paciente> pacientes;
+
+    @OneToMany(mappedBy = "nutricionista", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Dieta> dietas;
+
     public Nutricionista(String nome, String crnUf, String email, String senha) {
         this.nome = nome;
         this.crnUf = crnUf;

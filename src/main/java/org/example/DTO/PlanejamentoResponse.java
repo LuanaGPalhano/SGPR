@@ -2,7 +2,7 @@ package org.example.DTO;
 
 import org.example.model.Planejamento;
 import org.example.model.EntradaPlanejamento;
-import org.example.model.Porcao;
+import org.example.model.ItemRefeicao;
 
 import java.util.List;
 
@@ -23,22 +23,22 @@ public record PlanejamentoResponse(
         Long id,
         String dia,
         String refeicao,
-        List<PorcaoResponse> porcao
+        List<ItemRefeicaoResponse> porcao
     ){
         public EntradaResponse(EntradaPlanejamento entrada){
-            this(entrada.getId(), entrada.getDia(), entrada.getRefeicao(), entrada.getPorcoes()
+            this(entrada.getId(), entrada.getDia(), entrada.getRefeicao(), entrada.getItensRefeicao()
             .stream()
-            .map(PorcaoResponse::new)
+            .map(ItemRefeicaoResponse::new)
             .toList());
         }
     }
 
-    public record PorcaoResponse(
+    public record ItemRefeicaoResponse(
         String alimento,
         String quantidade
     ){
-        public PorcaoResponse(Porcao porcao){
-            this(porcao.getAlimento(), porcao.getQuantidade());
+        public ItemRefeicaoResponse(ItemRefeicao itemRefeicao){
+            this(itemRefeicao.getAlimento(), String.valueOf(itemRefeicao.getQuantidade()));
         }
     }
 }

@@ -9,9 +9,9 @@ public record PlanejamentoRequest(
     public record EntradaRequest(
         String dia,
         String refeicao,
-        List<PorcaoRequest> porcao
+        List<ItemRefeicaoRequest> porcao
     ){}
-    public record PorcaoRequest(
+    public record ItemRefeicaoRequest(
         String alimento,
         String quantidade
     ){}

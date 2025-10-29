@@ -26,19 +26,14 @@ public class AvaliacaoService {
         this.pacienteRepository = pacienteRepository;
     }
 
-    /**
-     * Cria uma nova avaliação para um paciente específico.
-     */
+    
     public AvaliacaoResponse criarAvaliacao(Long pacienteId, AvaliacaoRequest request) {
-        // 1. Busca o paciente ou lança um erro se não existir
         Paciente paciente = pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> new EntityNotFoundException("Paciente não encontrado com o ID: " + pacienteId));
 
-        // 2. Cria uma nova instância de Avaliacao
         Avaliacao novaAvaliacao = new Avaliacao();
         novaAvaliacao.setPaciente(paciente);
         
-        // 3. Preenche os dados da avaliação a partir do DTO
         novaAvaliacao.setPeso(request.peso());
         novaAvaliacao.setAltura(request.altura());
         novaAvaliacao.setPercentualGordura(request.percentualGordura());
@@ -46,14 +41,12 @@ public class AvaliacaoService {
         novaAvaliacao.setCircunferenciaQuadril(request.circunferenciaQuadril());
         novaAvaliacao.setObservacoes(request.observacoes());
 
-        // 4. Calcula o IMC e define a data
         novaAvaliacao.setImc(calcularImc(request.peso(), request.altura()));
         novaAvaliacao.setDataMedida(LocalDate.now());
 
-        // 5. Salva a avaliação no banco de dados
         Avaliacao avaliacaoSalva = avaliacaoRepository.save(novaAvaliacao);
 
-        // 6. Retorna um DTO de resposta
+        // Retorna um DTO de resposta
         return new AvaliacaoResponse(avaliacaoSalva);
     }
 
@@ -81,8 +74,6 @@ public class AvaliacaoService {
         avaliacao.setCircunferenciaQuadril(request.circunferenciaQuadril());
         avaliacao.setObservacoes(request.observacoes());
         avaliacao.setImc(calcularImc(request.peso(), request.altura()));
-        // Opcional: atualizar a data da medida ao editar
-        // avaliacao.setDataMedida(LocalDate.now());
 
         // 3. Salva as alterações
         Avaliacao avaliacaoAtualizada = avaliacaoRepository.save(avaliacao);
@@ -101,7 +92,7 @@ public class AvaliacaoService {
         if (altura <= 0) {
             return 0; // Evita divisão por zero
         }
-        // Fórmula do IMC: peso / (altura * altura)
+        // Fórmula do IMC
         return peso / (altura * altura);
     }
 }

@@ -163,13 +163,15 @@
         function buscarPacientePorCPF() {
             const cpf = document.getElementById('cpfInput').value.trim();
             const resultadoDiv = document.getElementById('resultadoBusca');
-    
+
             if (!cpf) {
                 resultadoDiv.innerHTML = `<div class="text-danger">Digite um CPF válido.</div>`;
                 return;
             }
-    
-            // Este endpoint precisa existir no seu backend
+
+            // Limpa o CPF para remover caracteres não numéricos
+            const cpfLimpo = cpf.replace(/[^0-9]/g, '');
+
             fetch(`/api/cadastrar/cpf/${cpfLimpo}`)
                 .then(response => {
                     if (!response.ok) {
@@ -179,7 +181,6 @@
                     return response.json();
                 })
                 .then(paciente => {
-                    // ✅ AGORA CHAMA A FUNÇÃO CORRETA: associarEredirecionar
                     resultadoDiv.innerHTML = `
                         <div class="alert alert-success">
                             <strong>Paciente encontrado:</strong> ${paciente.nome}<br>
@@ -193,7 +194,7 @@
                     resultadoDiv.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
                 });
         }
-    
+
         // Esta é a única função necessária para associar e redirecionar
         function associarEredirecionar(pacienteId) {
             const nutricionistaId = document.getElementById('nutricionistaId').value;
@@ -201,7 +202,7 @@
                 alert('Erro: ID do nutricionista não encontrado. Verifique se você está logado.');
                 return;
             }
-    
+
             fetch(`/api/nutricionistas/${nutricionistaId}/associar-paciente/${pacienteId}`, {
                 method: 'PUT'
             })

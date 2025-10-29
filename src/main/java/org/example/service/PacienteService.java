@@ -23,22 +23,37 @@ public class PacienteService {
     }
 
     public PacienteResponse cadastrar(PacienteCadastroRequest dados) {
-        // 1. Limpa o CPF para consistência no banco de dados
+        // Validação de dados obrigatórios
+        if (dados.nome() == null || dados.nome().isEmpty()) {
+            throw new IllegalArgumentException("O nome do paciente é obrigatório.");
+        }
+        if (dados.cpf() == null || dados.cpf().isEmpty()) {
+            throw new IllegalArgumentException("O CPF do paciente é obrigatório.");
+        }
+        if (dados.email() == null || dados.email().isEmpty()) {
+            throw new IllegalArgumentException("O e-mail do paciente é obrigatório.");
+        }
+        if (dados.senha() == null || dados.senha().isEmpty()) {
+            throw new IllegalArgumentException("A senha do paciente é obrigatória.");
+        }
+
+        // Limpa o CPF para consistência no banco de dados
         String cpfLimpo = dados.cpf().replaceAll("[^0-9]", "");
 
-        // 2. Verifica se o CPF limpo já existe
+        // Verifica se o CPF limpo já existe
         if (repository.findByCpf(cpfLimpo).isPresent()) {
             throw new IllegalArgumentException("CPF já cadastrado!");
         }
 
-        Paciente novoPaciente = new Paciente();
-        novoPaciente.setNome(dados.nome());
-        novoPaciente.setEmail(dados.email());
-        novoPaciente.setSenha(passwordEncoder.encode(dados.senha()));
-        
-        // 3. Salva o CPF limpo no banco
-        novoPaciente.setCpf(cpfLimpo);
+        // Criação do paciente
+        Paciente novoPaciente = new Paciente(
+            dados.nome(),
+            cpfLimpo, 
+            dados.email(), 
+            passwordEncoder.encode(dados.senha())
+        );
 
+        // Persistência no banco de dados
         Paciente pacienteSalvo = repository.save(novoPaciente);
         return new PacienteResponse(pacienteSalvo);
     }
@@ -50,7 +65,10 @@ public class PacienteService {
     public PacienteResponse buscarPorCpf(String cpf) {
         String cpfLimpo = cpf.replaceAll("[^0-9]", "");
         
-        return repository.findByCpf(cpfLimpo)
+        // Ajuste para buscar CPF considerando diferentes formatos
+        return repository.findAll().stream()
+                .filter(paciente -> paciente.getCpf().replaceAll("[^0-9]", "").equals(cpfLimpo))
+                .findFirst()
                 .map(PacienteResponse::new)
                 .orElseThrow(() -> new EntityNotFoundException("Paciente não encontrado com o CPF: " + cpf));
     }

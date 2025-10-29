@@ -18,9 +18,15 @@ public class ItemRefeicao {
     private String alimento;
     private double quantidade;
     private String unidadeMedida;
-    private double calorias;
+    
+    @Column(columnDefinition = "JSON") 
+    private String resumoNutricional;
+
     @ManyToOne
     @JoinColumn(name = "refeicao_id")
     private Refeicao refeicao;
 
+    @ManyToOne
+    @JoinColumn(name = "entrada_id")
+    private EntradaPlanejamento entrada;
 }

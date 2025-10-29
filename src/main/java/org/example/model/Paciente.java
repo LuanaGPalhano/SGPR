@@ -22,7 +22,7 @@ public class Paciente {
     private String senha;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nutricionista_id") // Cria a coluna de chave estrangeira
+    @JoinColumn(name = "nutricionista_id") 
     private Nutricionista nutricionista;
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)

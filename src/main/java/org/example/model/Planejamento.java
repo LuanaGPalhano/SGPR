@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "planejamento_semanal")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Planejamento {
