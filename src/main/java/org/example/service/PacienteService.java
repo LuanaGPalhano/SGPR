@@ -8,6 +8,7 @@ import org.example.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
 import java.util.List;
 
@@ -58,17 +59,16 @@ public class PacienteService {
         return new PacienteResponse(pacienteSalvo);
     }
 
-    public List<Paciente> buscarPorNutricionistaId(Long id) {
-        return repository.findByNutricionista_Id(id);
+    public List<PacienteResponse> buscarPorNutricionistaId(Long id) {
+        return repository.findByNutricionista_Id(id).stream()
+                .map(PacienteResponse::new) 
+                .collect(Collectors.toList()); 
     }
     
     public PacienteResponse buscarPorCpf(String cpf) {
         String cpfLimpo = cpf.replaceAll("[^0-9]", "");
-        
-        // Ajuste para buscar CPF considerando diferentes formatos
-        return repository.findAll().stream()
-                .filter(paciente -> paciente.getCpf().replaceAll("[^0-9]", "").equals(cpfLimpo))
-                .findFirst()
+
+        return repository.findByCpf(cpfLimpo)
                 .map(PacienteResponse::new)
                 .orElseThrow(() -> new EntityNotFoundException("Paciente não encontrado com o CPF: " + cpf));
     }

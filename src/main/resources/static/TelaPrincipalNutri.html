@@ -10,7 +10,7 @@
 <div class="login-container">
     <form id="formNutri" class="nutri-box">
     <div class="perfil-opcao">
-        <div class="card" onclick="window.location.href='listaPacientes.html'">
+        <div class="card" id="card-pacientes">
             <img src="ficha.png" alt="Ficha">
             <p>Ficha Individual</p>
         </div>
@@ -41,7 +41,24 @@
             window.location.href = "login.html";
         }
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const nutricionistaLogado = JSON.parse(localStorage.getItem('nutricionistaLogado'));
+        if (!nutricionistaLogado || !nutricionistaLogado.id) {
+            console.error('Não foi possível encontrar dados do nutricionista logado.');
+            alert('Erro! Faça o login novamente.');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const cardPacientes = document.getElementById('card-pacientes');
+
+        cardPacientes.addEventListener('click', () => {
+            window.location.href = `/api/nutricionistas/painel/${nutricionistaLogado.id}`;
+        });
+    });
 </script>
 <script src="login.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualização de Dieta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at left center, #E9FFF1, #006400);
+            clip-path: circle(50% at 25% 50%);
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+
+        .container {
+            position: relative;
+            max-width: 800px;
+            margin: 3% auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2, h3, h4 {
+            color: #006400;
+            margin-top: 1rem;
+        }
+
+        .dieta-info, .refeicao-container, .item-container {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        .item-container {
+            background-color: #e9f7ef;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #006400;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+        .back-button:hover {
+            background-color: #004d00;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="paciente-detalhes.html" class="back-button">← Voltar</a>
+    <h2>Visualização da Dieta</h2>
+
+    <div class="dieta-info">
+        <p><span class="label">Paciente:</span> <span id="pacienteNome"></span></p>
+        <p><span class="label">Nutricionista:</span> <span id="nutricionistaNome"></span></p>
+        <p><span class="label">Período:</span> <span id="periodo"></span></p>
+        <p><span class="label">Objetivo:</span> <span id="objetivo"></span></p>
+    </div>
+
+    <div id="refeicoesContainer">
+        <h3>Refeições</h3>
+        <!-- Refeições serão inseridas dinamicamente aqui -->
+    </div>
+</div>
+
+<script>
+    window.onload = async function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const dietaId = urlParams.get('id');
+
+        if (!dietaId) {
+            alert("ID da dieta não encontrado!");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/dietas/${dietaId}`);
+            if (!response.ok) throw new Error("Não foi possível buscar a dieta.");
+            const dieta = await response.json();
+
+            // Informações gerais
+            document.getElementById("pacienteNome").textContent = dieta.pacienteNome || "N/A";
+            document.getElementById("nutricionistaNome").textContent = dieta.nutricionistaNome || "N/A";
+            document.getElementById("periodo").textContent = `${dieta.dataInicio} a ${dieta.dataFim}`;
+            document.getElementById("objetivo").textContent = dieta.objetivo;
+
+            // Refeições
+            const refeicoesContainer = document.getElementById("refeicoesContainer");
+            dieta.refeicoes.forEach(refeicao => {
+                const refDiv = document.createElement("div");
+                refDiv.classList.add("refeicao-container");
+
+                refDiv.innerHTML = `
+                    <h4>${refeicao.nomeRefeicao} - ${refeicao.horarioRefeicao}</h4>
+                    <p><span class="label">Descrição:</span> ${refeicao.descricaoRefeicao || "N/A"}</p>
+                `;
+
+                refeicao.itens.forEach(item => {
+                    const itemDiv = document.createElement("div");
+                    itemDiv.classList.add("item-container");
+                    itemDiv.innerHTML = `
+                        <p><span class="label">Alimento:</span> ${item.alimento}</p>
+                        <p><span class="label">Quantidade:</span> ${item.quantidade} ${item.unidadeMedida}</p>
+                        <p><span class="label">Resumo Nutricional:</span> ${item.resumoNutricional || "Aguardando LLM"}</p>
+                    `;
+                    refDiv.appendChild(itemDiv);
+                });
+
+                refeicoesContainer.appendChild(refDiv);
+            });
+
+        } catch (error) {
+            alert("Erro ao carregar a dieta: " + error.message);
+            console.error(error);
+        }
+    };
+</script>
+</body>
+</html>

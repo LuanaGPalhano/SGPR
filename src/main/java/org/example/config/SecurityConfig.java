@@ -30,6 +30,7 @@ public class SecurityConfig {
                                 "/api/cadastrar/**",
                                 "/api/cadastrar/paciente/**",
                                 "/api/nutricionistas/**",
+                                "/api/dietas/**",
                                 "/diario/**",
                                 "/planejamento",
                                 "/planejamento/**"

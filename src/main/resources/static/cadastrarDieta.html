@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Dieta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at left center, #E9FFF1, #006400);
+            clip-path: circle(50% at 25% 50%);
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+
+        .container {
+            position: relative;
+            max-width: 700px;
+            margin: 3% auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #006400;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        .btn-cancelar, .btn-salvar {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .btn-cancelar {
+            background-color: #f1f1f1;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        .btn-salvar {
+            background-color: #006400;
+            color: white;
+        }
+
+        .refeicao-container {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        .add-button {
+            background-color: #00a86b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .add-button:hover {
+            background-color: #008f5a;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Cadastro de Dieta</h2>
+    <form id="formDieta">
+
+        <input type="hidden" id="pacienteId" name="pacienteId">
+        <input type="hidden" id="nutricionistaId" name="nutricionistaId">
+
+        <div class="form-group">
+            <label for="dataInicio">Data de Início</label>
+            <input type="date" id="dataInicio" name="dataInicio" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dataFim">Data de Fim</label>
+            <input type="date" id="dataFim" name="dataFim" required>
+        </div>
+
+        <div class="form-group">
+            <label for="objetivo">Objetivo da Dieta</label>
+            <textarea id="objetivo" name="objetivo" placeholder="Ex: Emagrecimento, ganho de massa magra..." required></textarea>
+        </div>
+
+        <div id="refeicoesContainer">
+            <h3>Refeições</h3>
+        </div>
+
+        <button type="button" class="add-button" onclick="adicionarRefeicao()">+ Adicionar Refeição</button>
+
+        <div class="buttons">
+            <a href="pagina-anterior.html" class="btn-cancelar">Cancelar</a>
+            <button type="submit" class="btn-salvar">Salvar Dieta</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Adiciona refeição dinamicamente
+    function adicionarRefeicao() {
+        const container = document.getElementById("refeicoesContainer");
+        const refeicaoDiv = document.createElement("div");
+        refeicaoDiv.classList.add("refeicao-container");
+
+        refeicaoDiv.innerHTML = `
+            <div class="form-group">
+                <label>Nome da Refeição</label>
+                <input type="text" name="nomeRefeicao" placeholder="Ex: Café da Manhã" required>
+            </div>
+
+            <div class="form-group">
+                <label>Horário</label>
+                <input type="time" name="horarioRefeicao" required>
+            </div>
+
+            <div class="form-group">
+                <label>Descrição</label>
+                <textarea name="descricaoRefeicao" placeholder="Ex: Refeição leve com frutas..."></textarea>
+            </div>
+
+            <div class="itensContainer">
+                <h4>Itens da Refeição</h4>
+            </div>
+
+            <button type="button" class="add-button" onclick="adicionarItem(this)">+ Adicionar Item</button>
+        `;
+
+        container.appendChild(refeicaoDiv);
+    }
+
+    // Adiciona item dentro da refeição
+    function adicionarItem(botao) {
+        const itensContainer = botao.previousElementSibling;
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("form-group");
+
+        itemDiv.innerHTML = `
+            <input type="text" name="alimento" placeholder="Alimento" required>
+            <input type="number" name="quantidade" placeholder="Quantidade" required>
+            <input type="text" name="unidadeMedida" placeholder="Unidade (g, ml...)" required>
+        `;
+
+        itensContainer.appendChild(itemDiv);
+    } 
+</script>
+<script src="cadastrarDieta.js"></script>
+</body>
+</html>

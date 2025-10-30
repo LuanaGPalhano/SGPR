@@ -26,7 +26,6 @@ public class PacienteController {
     
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<PacienteResponse> buscarPorCpf(@PathVariable String cpf) {
-        // A lógica foi movida para o service. O controller apenas chama o método.
         PacienteResponse paciente = pacienteService.buscarPorCpf(cpf);
         return ResponseEntity.ok(paciente);
     }

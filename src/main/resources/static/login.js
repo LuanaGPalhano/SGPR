@@ -1,8 +1,8 @@
 document.getElementById("formLogin").addEventListener("submit", async function(e) {
     e.preventDefault();
 
-    const login = document.getElementById("login").value;
-    const senha = document.getElementById("senha").value;
+    const loginInput = document.getElementById("login").value;
+    const senhaInput = document.getElementById("senha").value;
 
     try {
         const response = await fetch("http://localhost:8080/api/auth/login", {
@@ -10,13 +10,22 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ login, senha })
+            body: JSON.stringify({ crnUf: loginInput, senha: senhaInput })
         });
 
         if (response.ok) {
             const data = await response.json();
+            
+            console.log("Login bem-sucedido! Dados recebidos:", data);
 
-            // Redireciona baseado no tipo de usuário
+            if (!data.id || !data.tipo) {
+                alert("Erro: A resposta do servidor está incompleta. Contate o suporte.");
+                return;
+            }
+
+            localStorage.setItem('nutricionistaLogado', JSON.stringify(data));
+            console.log("Dados salvos no localStorage com a chave 'nutricionistaLogado'");
+
             if (data.tipo === "PACIENTE") {
                 window.location.href = "TelaPrincipalPac.html";
             } else if (data.tipo === "NUTRICIONISTA") {
@@ -25,10 +34,10 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
                 alert("Usuário sem tipo definido.");
             }
         } else {
-            alert("Login (CPF/CRN) ou senha inválidos!");
+            alert("Login (CRN) ou senha inválidos!");
         }
     } catch (error) {
-        console.error("Erro ao conectar com backend:", error);
+        console.error("Erro ao conectar com o backend:", error);
         alert("Erro de conexão com o servidor. Verifique se o backend está rodando.");
     }
 });

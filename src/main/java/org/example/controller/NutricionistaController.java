@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.DTO.PacienteResponse;
 import org.example.model.Nutricionista;
 import org.example.model.Paciente;
 import org.example.service.NutricionistaService;
@@ -7,6 +8,9 @@ import org.example.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.example.DTO.PacienteResponse;
+import org.springframework.ui.Model; 
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -30,8 +34,8 @@ public class NutricionistaController {
     }
 
     @GetMapping("/listaPacientes/{id}")
-    public ResponseEntity<List<Paciente>> listaPacientes(@PathVariable Long id) {
-        List<Paciente> pacientes = pacienteService.buscarPorNutricionistaId(id);
+    public ResponseEntity<List<PacienteResponse>> listaPacientes(@PathVariable Long id) {
+        List<PacienteResponse> pacientes = pacienteService.buscarPorNutricionistaId(id);
         return ResponseEntity.ok(pacientes);
     }
 
@@ -40,8 +44,23 @@ public class NutricionistaController {
             @PathVariable Long nutricionistaId,
             @PathVariable Long pacienteId
     ) {
-        // Vamos criar este método no service
         nutricionistaService.associarPaciente(nutricionistaId, pacienteId);
-        return ResponseEntity.noContent().build(); // Retorna 204 No Content (sucesso sem corpo)
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/painel/{id}") 
+    public String mostrarPainelDoNutricionista(@PathVariable Long id, Model model) {
+
+        // 1. Busca a lista de pacientes associados usando o service que já existe
+        List<PacienteResponse> listaDePacientes = pacienteService.buscarPorNutricionistaId(id);
+
+        // 2. Adiciona a lista de pacientes ao modelo. 
+        model.addAttribute("pacientes", listaDePacientes);
+
+        // 3. Adiciona o ID do nutricionista ao modelo para ser usado no input hidden
+        model.addAttribute("nutricionistaId", id);
+
+        // 4. Retorna o nome do arquivo HTML (sem a extensão .html)
+        return "listaPacientes"; 
     }
 }
