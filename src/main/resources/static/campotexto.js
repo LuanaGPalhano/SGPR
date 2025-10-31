@@ -1,6 +1,10 @@
 //ARQUIVO: CAMPO DE TEXTO
 
 document.addEventListener("DOMContentLoaded", function() {
+
+const pacienteCpf = localStorage.getItem("login");
+console.log(pacienteCpf);
+
 //ADICAO DE REFEIÇOES
 const botaoAdiciona = document.getElementById('botAdiciona');
 const refInput = document.getElementById('refeicaoInput');
@@ -73,7 +77,7 @@ botaoSave.addEventListener("click", function(){
         texto: texto,
         entradas: Refeicoes.map(r => ({descricao: r})),
         imgURL: imgURL,
-        registroHorario: new Date().toISOString()
+        pacienteCpf: pacienteCpf,
     };
 
     
@@ -85,7 +89,12 @@ botaoSave.addEventListener("click", function(){
             },
             body: JSON.stringify(payload)
         })
-        .then(res => res.json())
+        .then(async res => {
+            if(!res.ok){
+                throw new Error(`Erro ${res.status}`)
+            }
+            return await res.json();
+        })
         .then(anotacaoSalva => {
             console.log("Resposta do backend:", anotacaoSalva); //teste
             if(window.opener && !window.opener.closed) {

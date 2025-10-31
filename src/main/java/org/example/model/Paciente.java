@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "pacientes")
 @Data
@@ -31,6 +34,9 @@ public class Paciente {
     private Historico historico;
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private java.util.List<Dieta> dietas;
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("paciente-diarios")
+    private List<DiarioAlimentar> diariosAlimentares;
 
     public Paciente(String nome, String cpf, String email, String senha) {
         this.nome = nome;

@@ -2,13 +2,14 @@ package org.example.controller;
 
 import org.example.model.DiarioAlimentar;
 import org.example.service.DiarioAlimentarService;
+import org.example.DTO.DiarioAlimentarRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/diario")
-@CrossOrigin(origins = {"http://localhost:5501", "http://127.0.0.1:5501"})
+@CrossOrigin(origins = "*")
 public class DiarioAlimentarController {
 
     private final DiarioAlimentarService service;
@@ -18,12 +19,17 @@ public class DiarioAlimentarController {
     }
 
     @PostMapping
-    public DiarioAlimentar salvar(@RequestBody DiarioAlimentar diario) {
-        return service.salvar(diario);
+    public DiarioAlimentar salvar(@RequestBody DiarioAlimentarRequest diarioRequest) {
+        return service.salvar(diarioRequest);
     }
 
     @GetMapping
     public List<DiarioAlimentar> listarTodos() {
         return service.listarTodos();
+    }
+
+    @GetMapping("paciente/{cpf}")
+    public List<DiarioAlimentar> listarPorPacienteCpf(@PathVariable String cpf){
+        return service.listarPorPacienteCpf(cpf);
     }
 }

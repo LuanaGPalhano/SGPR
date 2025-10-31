@@ -1,6 +1,9 @@
 package org.example.model;
 
 import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,8 +19,9 @@ public class EntradaDiario {
 
     private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "diario_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diario_id", nullable = false)
+    @JsonBackReference("diario-entradas")
     private DiarioAlimentar diario;
 }
 

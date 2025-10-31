@@ -6,8 +6,10 @@ import org.example.DTO.PacienteResponse;
 import org.example.model.Paciente;
 import org.example.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class PacienteService {
 
         // Verifica se o CPF limpo já existe
         if (repository.findByCpf(cpfLimpo).isPresent()) {
-            throw new IllegalArgumentException("CPF já cadastrado!");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CPF já cadastrado!");
         }
 
         // Criação do paciente

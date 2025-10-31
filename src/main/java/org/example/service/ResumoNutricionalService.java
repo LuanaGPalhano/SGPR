@@ -19,9 +19,9 @@ public class ResumoNutricionalService {
     private final String modelo;
 
     public ResumoNutricionalService(
-        @Value("${openai.api.url:}") String apiUrl,
-        @Value("${openai.api.key: chave_aqui }") String apiKey,
-        @Value("${openai.model:}") String modelo) {
+        @Value("${openai.api.url:https://api.openai.com/v1}") String apiUrl,
+        @Value("${openai.api.key: apiKey }") String apiKey,
+        @Value("${openai.model:gpt-4o-mini}") String modelo) {
 
         this.openAIClient = WebClient.builder()
            .baseUrl(apiUrl)

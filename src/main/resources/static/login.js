@@ -16,6 +16,9 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
         if (response.ok) {
             const data = await response.json();
 
+            localStorage.setItem("tipoUsuario", data.tipo);
+            localStorage.setItem("login", data.login);
+
             // Redireciona baseado no tipo de usuário
             if (data.tipo === "PACIENTE") {
                 window.location.href = "TelaPrincipalPac.html";

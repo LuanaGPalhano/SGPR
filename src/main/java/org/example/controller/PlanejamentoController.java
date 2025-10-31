@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.DTO.SemanaRequest;
 import org.example.DTO.SemanaResponse;
 import org.example.DTO.PlanejamentoResponse;
+import org.example.DTO.ResumoNutricionalResponse;
 import org.example.model.Planejamento;
 import org.example.service.PlanejamentoService;
 import org.example.service.SemanaService;
@@ -58,4 +59,16 @@ public class PlanejamentoController {
     public void deletar(@PathVariable Long id){
         service.deletar(id);
     }
+
+    @GetMapping("/{id}/resumo-nutricional")
+    public ResponseEntity<ResumoNutricionalResponse> gerarResumo(@PathVariable Long id) {
+    try {
+        ResumoNutricionalResponse resumo = service.gerarResumoNutricional(id);
+        return ResponseEntity.ok(resumo);
+    } catch (Exception e) {
+        return ResponseEntity.status(404).body(
+            new ResumoNutricionalResponse("Planejamento não encontrado", 0,0,0,0,0,0, "", "", "", true)
+        );
+    }
+}
 }
